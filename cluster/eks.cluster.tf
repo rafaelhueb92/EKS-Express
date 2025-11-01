@@ -1,55 +1,18 @@
 resource "aws_eks_cluster" "this" {
-  name = "eks-express-cluster"
+  name =  var.eks_cluster.name
+  role_arn = aws_iam_role.eks_cluster.arn
+  version  = var.eks_cluster.version
+  enabled_cluster_log_types =  var.eks_cluster.enabled_cluster_log_types
 
   access_config {
-    authentication_mode = "API_AND_CONFIG_MAP"
+    authentication_mode = var.eks_cluster.access_config.authentication_mode
   }
-  enabled_cluster_log_types = [
-    "api",
-    "audit",
-    "authenticator",
-    "controllerManager",
-    "scheduler",
-  ]
-  role_arn = aws_iam_role.cluster.arn
-  version  = "1.32"
 
   vpc_config {
-    subnet_ids = [
-      aws_subnet.az1.id,
-      aws_subnet.az2.id,
-      aws_subnet.az3.id,
-    ]
+    subnet_ids = data.aws_subnets.private.ids
   }
 
-  # Ensure that IAM Role permissions are created before and deleted
-  # after EKS Cluster handling. Otherwise, EKS will not be able to
-  # properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
   ]
-}
-
-resource "aws_iam_role" "cluster" {
-  name = "eks-cluster-example"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "sts:AssumeRole",
-          "sts:TagSession"
-        ]
-        Effect = "Allow"
-        Principal = {
-          Service = "eks.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.cluster.name
 }
