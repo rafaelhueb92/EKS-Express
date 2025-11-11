@@ -3,7 +3,7 @@ data "terraform_remote_state" "cluster_stack" {
 
     config = {
         bucket = "not-so-simple-ecommerce-terraform-state-files-180294221572"
-        key    = "karpenter-auto-scaling/terraform.tfstate"
+        key    = "cluster/terraform.tfstate"
         region = "us-east-1"
         use_lockfile = true
     }
