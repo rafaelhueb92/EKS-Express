@@ -1,0 +1,10 @@
+resource "terraform_data" "karpenter_crds" {
+    provisioner "local-exec" {
+        command = "${path.module}/cli/karpenter-crds-create.sh"
+        when = create
+        ENVIRONMENT = {
+            REGION = var.region
+            CLUSTER_NAME = local.eks_cluster_name
+        }
+    }
+}

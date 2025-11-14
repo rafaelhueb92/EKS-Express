@@ -27,6 +27,7 @@ variable "vpc" {
         public_route_table_name = string
         private_route_table_name = string
         eip_name = string
+        eks_cluster_name_tag = string
         public_subnets = list(object({
             name = string
             cidr_block = string
@@ -48,6 +49,7 @@ variable "vpc" {
         public_route_table_name  = "public-route-table"
         private_route_table_name = "private-route-table"
         eip_name                 = "nat-gateway-eip"
+        eks_cluster_name_tag     = "eks-express-cluster"
         public_subnets = [{
             name = "nsse-public-subnet-us-east-1a"
             cidr_block = "10.0.0.0/27"
