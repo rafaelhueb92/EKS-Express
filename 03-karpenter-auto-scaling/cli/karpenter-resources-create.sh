@@ -1,7 +1,5 @@
 #! /bin/bash
 
-KARPENTER_VERSION="1.5.0"
-
 function eneableKubernetesClusterConnection(){
     aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
 }
