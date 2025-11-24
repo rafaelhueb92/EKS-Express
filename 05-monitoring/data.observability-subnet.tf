@@ -11,6 +11,6 @@ data "aws_subnets" "private" {
 
   filter {
     name   = "tag:Purpose"
-    values = ["eks-express-cluster"]
+    values = ["Observability"]
   }
 }

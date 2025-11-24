@@ -40,6 +40,12 @@ variable "vpc" {
             availability_zone = string
             map_public_ip_on_launch = bool
         }))
+        observability_subnets = list(object({
+            name = string
+            cidr_block = string
+            availability_zone = string
+            map_public_ip_on_launch = bool
+        }))
     })
     default = {
         cidr                     = "10.0.0.0/24"
@@ -72,5 +78,16 @@ variable "vpc" {
             availability_zone = "us-east-1b"
             map_public_ip_on_launch = false
         }]
+        observability_subnets = [{
+            name = "nsse-observability-subnet-us-east-1a"
+            cidr_block = "10.0.0.128/27"
+            availability_zone = "us-east-1a"
+            map_public_ip_on_launch = false
+        },{
+            name = "nsse-observability-subnet-us-east-1b"
+            cidr_block = "10.0.0.160/27"
+            availability_zone = "us-east-1b"
+            map_public_ip_on_launch = false
+        }] 
     }
 }
